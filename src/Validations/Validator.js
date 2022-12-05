@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 //_________ Validations : Name  ________________
 
 const isValidName = function (name) {
-  const regexName = /^[a-zA-Z]+$/;
+  const regexName = /^[a-zA-Z ]+$/;
   return regexName.test(name);
 };
 
@@ -54,7 +54,7 @@ const isValidObjectId = function (objectId) {
 
 const isValid = function (value) {
   if (typeof value === "undefined" || value === null) return false;
-  if (typeof value == "String" && value.trim().length === 0) return false;
+  if (typeof value == "string" && value.trim().length === 0) return false;
   return true;
 };
 
@@ -68,6 +68,5 @@ module.exports = {
   isValidMobileNo,
   isValidEmail,
   isValidName,
-  isValidPassword,
   isValidObjectId,
 };

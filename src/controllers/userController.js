@@ -25,7 +25,6 @@ const createUser = async function (req, res) {
           .status(400)
           .send({ status: false, msg: " name is required" });
       }
-
       if (!validator.isValidName(name)) {
         return res
           .status(400)
@@ -164,7 +163,7 @@ const loginUser = async function (req, res) {
     };
 
     let token = jwt.sign(payload, "Group7", {
-      expiresIn: "30s",
+      expiresIn: "30min",
     });
 
     res.setHeader("x-auth-key", token);
