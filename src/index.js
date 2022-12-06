@@ -4,6 +4,8 @@ const route = require("./routes/route.js");
 const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());
+const multer=require('multer')
+app.use(multer().any())
 
 mongoose
   .connect(process.env.URL, {
