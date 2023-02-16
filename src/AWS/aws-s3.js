@@ -13,7 +13,7 @@ exports.uploadFile= async ( file) =>{
      let uploadParams= {
          ACL: "public-read",
          Bucket: "classroom-training-bucket",    
-         Key: "rupam-bookCover/" + file.originalname,        
+         Key: "Bhuvnesh-bookCover/" + file.originalname,        
          Body: file.buffer
      }
  

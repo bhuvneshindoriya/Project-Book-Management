@@ -10,7 +10,7 @@ const createBooks = async (req, res) => {
     let bookData = req.body;
     let { title, userId, ISBN, category, subcategory, excerpt, releasedAt } =
       bookData;
-
+      if(userId!=req.decode.userId) return res.status(403).send({status:false,message:"you are not authorized"})
     if (!validator.isValid(title)) {
       return res
         .status(400)
@@ -27,7 +27,7 @@ const createBooks = async (req, res) => {
     if (!excerpt) {
       return res
         .status(400)
-        .send({ status: false, message: "Excerpt Must be Present" });
+        .send({ status: false, message: "Excerpt Must be Present" })
     }
 
     if (!validator.isValidObjectId(userId)) {
@@ -209,7 +209,6 @@ const updateBook = async function (req, res) {
   try {
     let data = req.body;
     let bookId = req.params.bookId;
-    let userId = req.query.userId;
 
     if (!validator.isValidObjectId(bookId)) {
       return res
@@ -229,23 +228,6 @@ const updateBook = async function (req, res) {
       return res
         .status(404)
         .send({ status: false, message: "this book has been deleted by you" });
-    }
-
-    if (userId) {
-      if (!validator.isValidObjectId(userId)) {
-        return res
-          .status(400)
-          .send({ status: false, message: "this is not a valid authorId " });
-      }
-
-      let findUser = await userModel.findOne({ _id: userId });
-
-      if (!findUser) {
-        return res.status(404).send({
-          status: false,
-          message: "a user with this id does not exists",
-        });
-      }
     }
 
     const { title, releasedAt, ISBN, excerpt } = data;
@@ -334,7 +316,7 @@ const deleteBook = async function (req, res) {
     });
 
     if (!checkBookId) {
-      return res.status(404).send({ status: false, message: "no book found" });
+      return res.status(404).send({ status: false, message: "book already deleted" });
     }
 
     let deletedBook = await bookModel.findByIdAndUpdate(
@@ -354,3 +336,4 @@ const deleteBook = async function (req, res) {
 //____________________________|| EXPORTING MODULE TO ROUTE.JS ||____________________________
 
 module.exports = { createBooks, getBooks, getBookById, updateBook, deleteBook };
+
